@@ -31,13 +31,13 @@
 				<h2>Creating a map</h2>
 				<p>For this tutorial we will be making a map out of an array of objects, each object storing their column, row, x, y, a boolean set to false (whether or not it s a part of a room). To generate the map we will use nestled for loops. However first we need to create the vars we will need to and the function that will draw everything as well as update it and the functions that create the rooms and map.<br>
 
-<pre><code class="language-js">var canvas = document.getElementById('game');
-var canvasContext = canvas.getContext('2d');	
+<pre><code class="language-js">var canvas = document.getElementById("game");
+var canvasContext = canvas.getContext("2d");
 
 var w = 20;
 
 var rows = 50;
-var cols= 50;
+var cols = 50;
 
 var grid = [];
 
@@ -45,247 +45,252 @@ var rooms = [];
 var collide = false;
 
 var amount = 10;
-var size = 5;			//the actual size will be a number between 5 and 10 | e.g: size+sizeMin
+var size = 5; //the actual size will be a number between 5 and 10 | e.g: size+sizeMin
 var sizeMin = 5;
 
 var disX;
 var disY;
 var corridorW = 1;
 
-function Cell(c, r, x, y)
-	{
-		this.c = c
-		this.r = r
-		this.x = x
-		this.y = y
-		this.empty = false
-						
-		this.show = function() 
-			{
-				if(this.empty == false)
-					{
-						canvasContext.fillStyle = "#323232"
-						canvasContext.fillRect(this.x, this.y, w, w)
-					}
-				else 
-					{
-						 canvasContext.fillStyle = "#696966"
-						 canvasContext.fillRect(this.x, this.y, w, w)
-					}
-			}
-				
-		this.carve = function(dis, x, y)
-			{
-				for (var i = 0; i < rooms.length; i++) 
-					{
-						if(this.c >= rooms[i].y/w && this.c < rooms[i].y/w+rooms[i].h/w && this.r >= rooms[i].x/w && this.r < rooms[i].x/w+rooms[i].w/w)
-							{
-								this.empty = true
-							}
-						}
-				}
-							
-			this.carveH = function(dis,x,y)
-				{
-					if(this.r >= x && this.r < x+dis && this.c < y+corridorW && this.c > y-corridorW)
-						{
-							this.empty = true
-						}
-				}
-			this.carveV = function(dis,x,y)
-				{
-					if(this.c >= y && this.c < y+dis && this.r < x+corridorW && this.r > x-corridorW)
-						{
-							this.empty = true
-						}
-				}
-		}
+function Cell(c, r, x, y) {
+  this.c = c;
+  this.r = r;
+  this.x = x;
+  this.y = y;
+  this.empty = false;
 
-function makeGrid()
-		{ 
-			for (var r = 0; r < rows; r++) 
-				{
-					for (var c = 0; c < cols; c++) 
-				  	{
-				    	var y = c*w
-				    	var x = r*w
-				    	var cell = new Cell(c, r, x, y);
-				    	grid.push(cell);
-				   	}
-				}
-		}
-		
-function draw() 
-	{
-   	for (var i = 0; i < grid.length; i++) 
-   		{
-     		grid[i].show();
-     		grid[i].carve();
-  		}
-		
-  	for (var i = 0; i < rooms.length; i++) 
-  		{
-  			rooms[i].draw();
-  		}
+  this.show = function() {
+    if (this.empty == false) {
+      canvasContext.fillStyle = "#323232";
+      canvasContext.fillRect(this.x, this.y, w, w);
+    } else {
+      canvasContext.fillStyle = "#696966";
+      canvasContext.fillRect(this.x, this.y, w, w);
+    }
+  };
+
+  this.carve = function(dis, x, y) {
+    for (var i = 0; i < rooms.length; i++) {
+      if (
+        this.c >= rooms[i].y / w &&
+        this.c < rooms[i].y / w + rooms[i].h / w &&
+        this.r >= rooms[i].x / w &&
+        this.r < rooms[i].x / w + rooms[i].w / w
+      ) {
+        this.empty = true;
+      }
+    }
+  };
+
+  this.carveH = function(dis, x, y) {
+    if (
+      this.r >= x &&
+      this.r < x + dis &&
+      this.c < y + corridorW &&
+      this.c > y - corridorW
+    ) {
+      this.empty = true;
+    }
+  };
+  this.carveV = function(dis, x, y) {
+    if (
+      this.c >= y &&
+      this.c < y + dis &&
+      this.r < x + corridorW &&
+      this.r > x - corridorW
+    ) {
+      this.empty = true;
+    }
+  };
+}
+
+function makeGrid() {
+  for (var r = 0; r < rows; r++) {
+    for (var c = 0; c < cols; c++) {
+      var y = c * w;
+      var x = r * w;
+      var cell = new Cell(c, r, x, y);
+      grid.push(cell);
+    }
   }
-  
-makeGrid()
-createRooms()
-draw()</code></pre></p>
+}
+
+function draw() {
+  for (var i = 0; i < grid.length; i++) {
+    grid[i].show();
+    grid[i].carve();
+  }
+
+  for (var i = 0; i < rooms.length; i++) {
+    rooms[i].draw();
+  }
+}
+
+makeGrid();
+createRooms();
+draw();</code></pre></p>
 			</article>
 			
 			<article id="generatingR">
 				<h2>Generating rooms</h2>
 				<p>To generate the rooms we will choose a random x, y, width and height then we go through and see if any of the cells in our map are within the room if it is then we switch the boolean empty to true in the cell object.
-<pre><code class="language-js">function Room(x, y, width, height, i)
-	{
-		this.x = (x-1)*w;
-		this.y = (y-1)*w;
-		this.w = width*w;
-		this.h = height*w;
-		
-		this.center = [Math.floor(this.x/w+width/2), Math.floor(this.y/w+height/2)]
-		
-		this.draw = function()
-			{
-				canvasContext.fillStyle = "white"
-				canvasContext.fillText(i, this.x+this.w/2, this.y+this.h/2-20)
-			}
-	}
-	
-function createRooms() 
-	{
-		for (var i = 0; i < amount; i++) 
-			{
-				var room = new Room(Math.floor(Math.random()*rows)+1, Math.floor(Math.random()*cols)+1, Math.floor(Math.random()*size)+sizeMin, Math.floor(Math.random()*size)+sizeMin, i)
-				rooms.push(room) 
-			}
-	}</code></pre></p>
+<pre><code class="language-js">function Room(x, y, width, height, i) {
+  this.x = (x - 1) * w;
+  this.y = (y - 1) * w;
+  this.w = width * w;
+  this.h = height * w;
+
+  this.center = [
+    Math.floor(this.x / w + width / 2),
+    Math.floor(this.y / w + height / 2)
+  ];
+
+  this.draw = function() {
+    canvasContext.fillStyle = "white";
+    canvasContext.fillText(i, this.x + this.w / 2, this.y + this.h / 2 - 20);
+  };
+}
+
+function createRooms() {
+  for (var i = 0; i < amount; i++) {
+    var room = new Room(
+      Math.floor(Math.random() * rows) + 1,
+      Math.floor(Math.random() * cols) + 1,
+      Math.floor(Math.random() * size) + sizeMin,
+      Math.floor(Math.random() * size) + sizeMin,
+      i
+    );
+    rooms.push(room);
+  }
+}</code></pre></p>
 			</article>
 			
 			<article id="MSTDNC">
 				<h2>Making sure they do not collide</h2>
 				<p>To make sure the rooms do not collide we put some basic collision code in the function that generates the rooms we then delete on of the two rooms. There is also code to detect whether or not the rooms is outside of the canvas if so we delete the room. if everything goes well and the room is not off the canvas or colliding with other rooms then we add it to the array of rooms.
 <pre><code class="language-js">
-function createRooms() 
-	{
-		for (var i = 0; i < amount; i++) 
-			{
-				var room = new Room(Math.floor(Math.random()*rows)+1, Math.floor(Math.random()*cols)+1, Math.floor(Math.random()*size)+sizeMin, Math.floor(Math.random()*size)+sizeMin, i)
-					
-				if(i > 0)
-					{
-						if(rooms[0].x+rooms[0].w >= canvas.width || rooms[0].x <= 0 || rooms[0].y+rooms[0].h >= canvas.height || rooms[0].y <= 0)
-							{
-								rooms = []
-								createRooms();
-								break;
-							}
-							
-						for (var e = 0; e < rooms.length; e++) 
-							{
-								collide = false
+function createRooms() {
+  for (var i = 0; i < amount; i++) {
+    var room = new Room(
+      Math.floor(Math.random() * rows) + 1,
+      Math.floor(Math.random() * cols) + 1,
+      Math.floor(Math.random() * size) + sizeMin,
+      Math.floor(Math.random() * size) + sizeMin,
+      i
+    );
 
-								if(room.x <= rooms[e].x+rooms[e].w && room.x+room.w >= rooms[e].x && room.y <= rooms[e].y+rooms[e].h && room.y+room.h >= rooms[e].y)
-									{
-										collide = true;
-										i--
-										break;
-									}
-								else if (room.x+room.w >= canvas.width || room.x <= 0 || room.y+room.h >= canvas.height || room.y <= 0) 
-									{
-										collide = true;
-										i--;
-										break;
-									}
-							}
-					}
-				
-				if(collide == false)
-					{
-						rooms.push(room) 
-					}
-			}
-	}</code></pre></p>
+    if (i > 0) {
+      if (
+        rooms[0].x + rooms[0].w >= canvas.width ||
+        rooms[0].x <= 0 ||
+        rooms[0].y + rooms[0].h >= canvas.height ||
+        rooms[0].y <= 0
+      ) {
+        rooms = [];
+        createRooms();
+        break;
+      }
+
+      for (var e = 0; e < rooms.length; e++) {
+        collide = false;
+
+        if (
+          room.x <= rooms[e].x + rooms[e].w &&
+          room.x + room.w >= rooms[e].x &&
+          room.y <= rooms[e].y + rooms[e].h &&
+          room.y + room.h >= rooms[e].y
+        ) {
+          collide = true;
+          i--;
+          break;
+        } else if (
+          room.x + room.w >= canvas.width ||
+          room.x <= 0 ||
+          room.y + room.h >= canvas.height ||
+          room.y <= 0
+        ) {
+          collide = true;
+          i--;
+          break;
+        }
+      }
+    }
+
+    if (collide == false) {
+      rooms.push(room);
+    }
+  }
+}
+</code></pre></p>
 			</article>
 			
 			<article id="connectingR">
 				<h2>Connecting Rooms</h2>
 				<p>To connect the rooms we first find the horizontal distance and the vertical distance between the centre of the rooms. Once we have the vertical and horizontal distances we check whether or not any of the cells are in the horizontal corridor by check if they are at the appropriate row and in-between the rooms centre and the rooms centre plus the horizontal distance between rooms inside the cell object we then do the same thing for the vertical corridors and now we have functions that create corridors.</p> 
-<pre><code class="language-js">function hCorridor(x1,x2,y1,y2)
-	{
-		if(x1 > x2)
-			{
-				disX = x1-x2
-				disX += 1
-				
-				for (var i = 0; i < grid.length; i++) 
-					{
-						grid[i].carveH(disX, x2, y2)
-					}				
-			}
-		else
-			{
-				disX = x2 - x1
-				disX += 1
-				for (var i = 0; i < grid.length; i++) 
-					{
-						grid[i].carveH(disX, x1, y1)
-					}
-			}
-			
-	}
-	
-function vCorridor(x1,x2,y1,y2)
-	{
-		var x;
-		
-		if(y1 > y2)
-			{
-				disY = y1-y2
-				disY += 1
-				
-				if(x2+(disX-1) > x1+(disX-1))
-					{
-						x = x2
-					}
-				else 
-					{
-					x = x2+(disX-1)
-					}
-				
-				for(var i = 0; i < grid.length; i++) 
-					{
-						grid[i].carveV(disY, x, y2)
-					}
-			}
-		else 
-			{
-				disY = y2 - y1
-				disY += 1
-				
-				if(x1+(disX-1) > x2+(disX-1))
-					{
-						x = x1
-					}	
-				else 
-					{
-						x = x1+(disX-1)
-					}
-					
-				for (var i = 0; i < grid.length; i++) 
-					{
-						grid[i].carveV(disY, x, y1)
-					}
-				
-			}
-			
-	}</code></pre><p>we will also need to add this code to our createRooms function. Make sure it is inside the if statement "if(collide == false)" this will call the functions that create the hallways.</p>
-<pre><code class="language-js">if(i>0)
-	{
-		hCorridor(rooms[i-1].center[0], room.center[0], rooms[i-1].center[1], room.center[1])
-		vCorridor(rooms[i-1].center[0], room.center[0], rooms[i-1].center[1], room.center[1])
-	}</code></pre>
+<pre><code class="language-js">
+function hCorridor(x1, x2, y1, y2) {
+  if (x1 > x2) {
+    disX = x1 - x2;
+    disX += 1;
+
+    for (var i = 0; i < grid.length; i++) {
+      grid[i].carveH(disX, x2, y2);
+    }
+  } else {
+    disX = x2 - x1;
+    disX += 1;
+    for (var i = 0; i < grid.length; i++) {
+      grid[i].carveH(disX, x1, y1);
+    }
+  }
+}
+
+function vCorridor(x1, x2, y1, y2) {
+  var x;
+
+  if (y1 > y2) {
+    disY = y1 - y2;
+    disY += 1;
+
+    if (x2 + (disX - 1) > x1 + (disX - 1)) {
+      x = x2;
+    } else {
+      x = x2 + (disX - 1);
+    }
+
+    for (var i = 0; i < grid.length; i++) {
+      grid[i].carveV(disY, x, y2);
+    }
+  } else {
+    disY = y2 - y1;
+    disY += 1;
+
+    if (x1 + (disX - 1) > x2 + (disX - 1)) {
+      x = x1;
+    } else {
+      x = x1 + (disX - 1);
+    }
+
+    for (var i = 0; i < grid.length; i++) {
+      grid[i].carveV(disY, x, y1);
+    }
+  }
+}
+</code></pre><p>we will also need to add this code to our createRooms function. Make sure it is inside the if statement "if(collide == false)" this will call the functions that create the hallways.</p>
+<pre><code class="language-js">if (i > 0) {
+  hCorridor(
+    rooms[i - 1].center[0],
+    room.center[0],
+    rooms[i - 1].center[1],
+    room.center[1]
+  );
+  vCorridor(
+    rooms[i - 1].center[0],
+    room.center[0],
+    rooms[i - 1].center[1],
+    room.center[1]
+  );
+}</code></pre>
 			</article>
 			
 			<article id="WTGFH">
