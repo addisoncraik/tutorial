@@ -1,3 +1,9 @@
+@font-face {
+   font-family: font;
+   src: url(avenir/regular.otf);
+}
+
+
 article,nav,header{
 	margin-left: 10%;
 	margin-right: 10%;
@@ -16,34 +22,31 @@ canvas{
 }
 button{
 	border: 1px solid #333;
-	font: 100 1em "Avenir Next";
+	font: 100 1em "font";
 	margin-top: 1%;
 	padding: 1%;
 	width: 60%;
 }
 
-xmp{
-	background-color: #f5f7f8;
+.language-js{
 	white-space: pre-wrap;
-	padding:1%;
-	border-left: 1px solid #e4e4e4;
 }
 
 h2{
 	text-align: left;
 	
-	font: 300 2em "Avenir Next";
+	font: 300 2em "font";
 	padding-bottom:2%;
 }
 h1{
 	text-align: left;
 	margin-top: 10%;
 	
-	font: 300 4em "Avenir Next";
+	font: 300 4em "font";
 	padding-bottom:2%;
 }
 p{
-	font: 100 1em "Avenir Next";
+	font: 100 1em "font";
 }
 
 footer{
@@ -58,7 +61,7 @@ footer{
 	text-align: center;
 	text-transform: capitalize;
 	border-top: 1px solid #edf0f5;
-	font: 100 1em "Avenir Next";
+	font: 100 1em "font";
 }
 a{
 		text-decoration: none;
@@ -72,7 +75,7 @@ a:hover{
 body{
 	margin: 0;
 	background-color: #F5F7FA;
-	font: 300 1em "Avenir Next";
+	font: 300 1em "font";
 }
 
 ul {
@@ -111,7 +114,7 @@ ul {
 h3{
 	margin: 0;
 	padding-top: 10px;
-	font: 300 1.375em "Avenir Next";
+	font: 300 1.375em "font";
 	text-align: center;
 }
 #i{
