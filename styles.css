@@ -139,4 +139,5 @@ img{
 .gen:active{
 	color:magenta;
 	border-color:magenta;
+	background: #fd7fffb3;
 }
