@@ -24,12 +24,12 @@
 		<main>
 			<article id="OurG">
 				<h2>Our Goal</h2>
-				<p>Our goal will be make a 100% Javascript Procedurally Generated Dungeon that at the end will look somewhat like this:<canvas id="game" width="1000" height="1000"></canvas>		<script src="script.js" ></script><button onclick="gen()">New Dungeon</button>
+				<p>Our goal will be: Make a 100% Javascript Procedurally Generated Dungeon that at the end will look somewhat like this:<canvas id="game" width="1000" height="1000"></canvas>		<script src="script.js" ></script><button onclick="gen()">New Dungeon</button>
 			</article>
 			
 			<article id="CreatingM">
 				<h2>Creating a map</h2>
-				<p>For this tutorial we will be making a map out of an array of objects, each object storing their column, row, x, y, a boolean set to false (whether or not it s a part of a room). To generate the map we will use nestled for loops. However first we need to create the vars we will need to and the function that will draw everything as well as update it and the functions that create the rooms and map.<br>
+				<p>For this tutorial we will be making a map out of an array of objects. Each object will store their column, row, x, y and whether or not it s a part of a room. However first we need to create the variables we will need: The width and heigth of the tiles, how many rows and colums the map will have, the array that will be used to store the tiles, the array that will store the rooms, the rooms width and height in tiles, the variables we will use to help make the corridors and finally the width in tiles of the corridors. Now it's time to create an object for the tiles. This object will contain 4 functions: this.show which will determine whether or not to draw the tile to the color of the background or the color of the rooms & corridors, this.carve which will check if the tile is inside a room, this.carveH & this.carveV which check to see if the tile is in any corridors. Now that we have all that we can create the map using makeGrid() this will create a 50 x 50 map and store it in grid[]. Finally with the function draw() we can draw the map to do this we loop through all the tiles in the array grid[] and call the function this.show() we also call this.carve() & this.draw() for when we write the code for the rooms.<br>
 
 <pre><code class="language-js">var canvas = document.getElementById("game");
 var canvasContext = canvas.getContext("2d");
@@ -307,7 +307,7 @@ function vCorridor(x1, x2, y1, y2) {
 		</main>
 	</body>
 	<footer>
-		<p>Thank you to CaptainKraft's <em><a href="https://gamedevelopment.tutsplus.com/tutorials/create-a-procedurally-generated-dungeon-cave-system--gamedev-10099?_ga=2.195336428.1114271151.1537050855-2081289398.1536880697" target="_blank">tutorial</a></em> where I got the concept from</p>
+		<p>Thank you to CaptainKraft's <em><a href="https://gamedevelopment.tutsplus.com/tutorials/create-a-procedurally-generated-dungeon-cave-system--gamedev-10099?_ga=2.195336428.1114271151.1537050855-2081289398.1536880697" target="_blank">tutorial </a></em> where I got the concept from</p>
 		<p class="foot">&copy; 2018 addisoncraik.com	all rights reserved</p>
 	</footer>
 </html>
