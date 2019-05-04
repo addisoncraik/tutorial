@@ -29,7 +29,7 @@
 			
 			<article id="CreatingM">
 				<h2>Creating a map</h2>
-				<p>For this tutorial we will be making a map out of an array of objects. Each object will store their column, row, x, y and whether or not it s a part of a room. However first we need to create the variables we will need: The width and heigth of the tiles, how many rows and colums the map will have, the array that will be used to store the tiles, the array that will store the rooms, the rooms width and height in tiles, the variables we will use to help make the corridors and finally the width in tiles of the corridors. Now it's time to create an object for the tiles. This object will contain 4 functions: this.show which will determine whether or not to draw the tile to the color of the background or the color of the rooms & corridors, this.carve which will check if the tile is inside a room, this.carveH & this.carveV which check to see if the tile is in any corridors. Now that we have all that we can create the map using makeGrid() this will create a 50 x 50 map and store it in grid[]. Finally with the function draw() we can draw the map to do this we loop through all the tiles in the array grid[] and call the function this.show() we also call this.carve() & this.draw() for when we write the code for the rooms.<br>
+				<p>For this tutorial we will be making a map out of an array of objects. Each object will store their column, row, x, y and whether or not it s a part of a room. However first we need to create the global variables: The width and heigth of the tiles, how many rows and colums the map will have, the array that will be used to store the tiles, the array that will store the rooms, the rooms width and height in tiles, the variables we will use to help make the corridors and finally the width in tiles of the corridors. Now it's time to create an object for the tiles. This object will contain 4 functions: this.show which will determine whether or not to draw the tile to the color of the background or the color of the rooms & corridors, this.carve which will check if the tile is inside a room, this.carveH & this.carveV which check to see if the tile is in any corridors. Now that we have all that we can create the map using makeGrid() this will create a 50 x 50 map and store it in grid[]. Finally with the function draw() we can draw the map to do this we loop through all the tiles in the array grid[] and call the function this.show() we also call this.carve() & this.draw() for when we write the code for the rooms.<br>
 
 <pre><code class="language-js">var canvas = document.getElementById("game");
 var canvasContext = canvas.getContext("2d");
@@ -133,7 +133,7 @@ draw();</code></pre></p>
 			
 			<article id="generatingR">
 				<h2>Generating rooms</h2>
-				<p>To generate the rooms we will choose a random x, y, width and height then we go through and see if any of the cells in our map are within the room if it is then we switch the boolean empty to true in the cell object.
+				<p>Now we need to generate rooms. First we need to create the object that we will use to generate the rooms. We will choose a random x, y, width, height and center. Then draw a little number that represents what room is being generated with the function this.draw.  Finally we go through and create 5 rooms (specified in the amount variable) and add them to the array rooms[].
 <pre><code class="language-js">function Room(x, y, width, height, i) {
   this.x = (x - 1) * w;
   this.y = (y - 1) * w;
