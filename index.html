@@ -276,7 +276,7 @@ function vCorridor(x1, x2, y1, y2) {
     }
   }
 }
-</code></pre><p>we will also need to add this code to our createRooms function. Make sure it is inside the if statement "if(collide == false)" this will call the functions that create the hallways.</p>
+</code></pre><p>Now that we have al this code we need a way to call it. To do this you will just need to add the following code to the if statement "if(collide == false)" at the vary end of our createRooms() function this will call the functions that create the hallways and gives it the centers of the rooms.</p>
 <pre><code class="language-js">if (i > 0) {
   hCorridor(
     rooms[i - 1].center[0],
