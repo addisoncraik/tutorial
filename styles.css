@@ -136,3 +136,6 @@ img{
 	border-radius:50%;
 	margin-top: 20px;
 }
+.gen:active{
+	color:magenta;
+}
