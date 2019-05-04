@@ -167,7 +167,7 @@ function createRooms() {
 			
 			<article id="MSTDNC">
 				<h2>Making sure they do not collide</h2>
-				<p>To make sure the rooms do not collide we put some basic collision code in the function that generates the rooms createRooms(). If the room currently being generated is colliding with a previous room we delete it. There is also code to detect whether or not the rooms is outside of the canvas if so we delete the room. If everything goes well and the room is not off the canvas or colliding with other rooms then we add it to the array of rooms this process continues until we have reached the desired amount of rooms.
+				<p>To make sure the rooms do not collide we put some basic collision code in the function that generates the rooms createRooms(). If the room currently being generated is colliding with a previous room we delete it. There is also code to detect whether or not the room is outside of the canvas if so we delete the room. If everything goes well and the room is not off the canvas or colliding with other rooms then we add it to the array of rooms this process continues until we have reached the desired amount of rooms.
 <pre><code class="language-js">
 function createRooms() {
   for (var i = 0; i < amount; i++) {
@@ -226,7 +226,7 @@ function createRooms() {
 			
 			<article id="connectingR">
 				<h2>Connecting Rooms</h2>
-				<p>To connect the rooms we first find the horizontal distance and the vertical distance between the centre of the rooms. Once we have the vertical and horizontal distances we check whether or not any of the cells are in the horizontal corridor by check if they are at the appropriate row and in-between the rooms centre and the rooms centre plus the horizontal distance between rooms inside the cell object we then do the same thing for the vertical corridors and now we have functions that create corridors.</p> 
+				<p>Connecting the rooms is very easy, we first find the horizontal distance (x1 & x2) and the vertical distance (y1 & y2) between the centre of the rooms. Once we have found the distances we call the function this.carveH and this.carveV to change the state of any cells within the corridors.</p> 
 <pre><code class="language-js">
 function hCorridor(x1, x2, y1, y2) {
   if (x1 > x2) {
