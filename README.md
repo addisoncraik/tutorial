@@ -1,4 +1,4 @@
 # tutorial
 JS tutorial
 
-https://craiky.github.io/tutorial/
+https://addisoncraik.github.io/tutorial/
